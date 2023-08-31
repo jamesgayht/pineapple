@@ -10,6 +10,7 @@ import AuthProvider from "./components/auth/AuthProvider";
 import GuestOnly from "./components/auth/GuestOnly";
 import AuthOnly from "./components/auth/AuthOnly";
 import PineappleUpload from "./components/pineapple/PineappleUpload";
+import PineappleSaved from "./components/pineapple/PineappleSaved";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/upload",
     element: <AuthOnly component={PineappleUpload} />,
+  },
+  {
+    path: "/saved",
+    element: <AuthOnly component={PineappleSaved} />,
   },
 ]);
 

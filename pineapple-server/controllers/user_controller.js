@@ -105,8 +105,10 @@ const userController = {
 
   saveSummary: async (req, res) => {
     const data = req.body;
+    console.info(">>> reqbody: ", req)
     const userID = res.locals.authUserID;
     const summaryInput = { ...data, userID: userID };
+    console.info(">>> summary Input: ", summaryInput)
 
     const validationResult = userValidator.summarySchema.validate(summaryInput);
     if (validationResult.error)

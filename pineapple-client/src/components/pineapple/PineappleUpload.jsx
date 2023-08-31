@@ -4,6 +4,7 @@ import { styles } from "../../styles";
 import { SectionWrapper } from "../../hoc";
 import PineappleNavbar from "./PineappleNavbar";
 import { PacmanLoader } from "react-spinners";
+import Cookies from "js-cookie";
 
 function PineappleUpload() {
   const [title, setTitle] = useState("");
@@ -38,7 +39,9 @@ function PineappleUpload() {
     formData.append("ext", ext);
     formData.append("file", file);
     axios
-      .post("http://localhost:3000/api/audio/upload_file", formData)
+      .post("http://localhost:3000/api/audio/upload_file", formData, {
+        headers: { Authorization: `Bearer ${Cookies.get("userAuthToken")}` },
+      })
       .then((res) => {
         setLoading(false);
         console.info(">>> audio upload res: ", res);
@@ -51,18 +54,20 @@ function PineappleUpload() {
       });
   };
 
-  const handleSave = (e) => {
+  const handleSave = () => {
     setLoading(true);
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("episode", episode);
-    formData.append("summary", summary);
-    console.info(">>> save formdata: ", formData);
     axios
-      .post("http://localhost:3000/api/user/summaries", formData)
+      .post(
+        "http://localhost:3000/api/users/summaries",
+        { title: title, episode: episode, summary: summary },
+        {
+          headers: { Authorization: `Bearer ${Cookies.get("userAuthToken")}` },
+        }
+      )
       .then((res) => {
         setLoading(false);
         console.info(">>> save summary res: ", res);
+        window.alert(res.msg);
       })
       .catch((err) => {
         console.error(">>> save summary error: ", err);
@@ -140,6 +145,9 @@ function PineappleUpload() {
               <button
                 type="button"
                 className="bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl"
+                onClick={() => {
+                  handleSave();
+                }}
               >
                 {loading ? "Saving" : "Save"}
               </button>
