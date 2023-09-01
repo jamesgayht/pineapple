@@ -22,10 +22,10 @@ const PineappleNavbar = () => {
       id: "saved",
       title: "Saved",
     },
-    {
-      id: "support",
-      title: "Support",
-    },
+    // {
+    //   id: "support",
+    //   title: "Support",
+    // },
   ];
 
   // console.info(">>>> active: ", active);

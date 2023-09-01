@@ -14,7 +14,7 @@ function PineappleSaved() {
   const getSummaries = async () => {
     setLoading(true);
     await axios
-      .get(`http://localhost:3000/api/users/summaries`, {
+      .get(`https://pineapple-a8je.onrender.com/api/users/summaries`, {
         headers: { Authorization: `Bearer ${Cookies.get("userAuthToken")}` },
       })
       .then((res) => {
@@ -35,7 +35,7 @@ function PineappleSaved() {
   const handleDelete = async (id) => {
     console.info(id);
     await axios
-      .put(`http://localhost:3000/api/users/summaries/delete`, {id: id}, {
+      .put(`https://pineapple-a8je.onrender.com/api/users/summaries/delete`, {id: id}, {
         headers: { Authorization: `Bearer ${Cookies.get("userAuthToken")}` },
       })
       .then((res) => {

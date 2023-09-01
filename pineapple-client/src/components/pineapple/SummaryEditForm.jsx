@@ -31,7 +31,7 @@ function SummaryEditForm({
     e.preventDefault();
     setLoading(true);
     await axios
-      .put(`http://localhost:3000/api/users/summaries/${id}`, formData, {
+      .put(`https://pineapple-a8je.onrender.com/api/users/summaries/${id}`, formData, {
         headers: { Authorization: `Bearer ${Cookies.get("userAuthToken")}` },
       })
       .then((res) => {

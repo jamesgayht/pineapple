@@ -41,7 +41,7 @@ function PineappleUpload() {
     formData.append("ext", ext);
     formData.append("file", file);
     axios
-      .post("http://localhost:3000/api/audio/upload_file", formData, {
+      .post("https://pineapple-a8je.onrender.com/api/audio/upload_file", formData, {
         headers: { Authorization: `Bearer ${Cookies.get("userAuthToken")}` },
       })
       .then((res) => {
@@ -60,7 +60,7 @@ function PineappleUpload() {
     setLoading(true);
     axios
       .post(
-        "http://localhost:3000/api/users/summaries",
+        "https://pineapple-a8je.onrender.com/api/users/summaries",
         { title: title, episode: episode, summary: summary },
         {
           headers: { Authorization: `Bearer ${Cookies.get("userAuthToken")}` },

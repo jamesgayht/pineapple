@@ -25,7 +25,7 @@ function UserRegister() {
     e.preventDefault();
     setLoading(true);
     axios
-      .post("http://localhost:3000/api/users/register", formData)
+      .post("https://pineapple-a8je.onrender.com/api/users/register", formData)
       .then((response) => {
         console.info(">>> register user response: ", response);
         setLoading(false);
