@@ -5,6 +5,7 @@ import { SectionWrapper } from "../../hoc";
 import PineappleNavbar from "./PineappleNavbar";
 import { PacmanLoader } from "react-spinners";
 import Cookies from "js-cookie";
+import SummaryEditForm from "./SummaryEditForm";
 
 function PineappleUpload() {
   const [title, setTitle] = useState("");
@@ -13,6 +14,7 @@ function PineappleUpload() {
   const [ext, setExt] = useState("");
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   // get extension function
   const getExtension = (fileName) => {
@@ -67,13 +69,18 @@ function PineappleUpload() {
       .then((res) => {
         setLoading(false);
         console.info(">>> save summary res: ", res);
-        window.alert(res.msg);
+        window.location.reload()
       })
       .catch((err) => {
         console.error(">>> save summary error: ", err);
         setLoading(false);
         window.alert(err.message);
       });
+  };
+
+  const handleEdit = () => {
+    if (isDisabled) setIsDisabled(false);
+    else setIsDisabled(true);
   };
 
   return (
@@ -91,7 +98,7 @@ function PineappleUpload() {
           Too many podcasts too little time?
         </p>
         <h3 className={`${styles.sectionHeadText}`}>We got you!</h3>
-        
+
         <form onSubmit={handleSubmit} className="mt-12 flex flex-col gap-8">
           <label className="flex flex-col">
             <span className="text-white font-medium mb-4">Podcast Title</span>
@@ -142,35 +149,60 @@ function PineappleUpload() {
             >
               {loading ? "Generating" : "Generate"}
             </button>
-            {summary ? (
-              <button
-                type="button"
-                className="bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl"
-                onClick={() => {
-                  handleSave();
-                }}
-              >
-                {loading ? "Saving" : "Save"}
-              </button>
-            ) : (
-              ""
-            )}
           </div>
         </form>
       </div>
 
       {/* display summary */}
       {summary ? (
-        <div className="xs:w-[] w-full">
-          <div className="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-card">
-            <div className="bg-tertiary rounded-[20px] py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col">
-              <h3 className={`${styles.sectionHeadText}`}>
-                Here&apos;s the summary
-              </h3>
-              <p className="text-white text-[20px]">{summary}</p>
+        <>
+          <div className="xs:w-[] w-full">
+            <div className="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-card">
+              <div className="w-full bg-tertiary rounded-[20px] py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col">
+                <h3 className={`${styles.sectionHeadText}`}>
+                  Here&apos;s the summary
+                </h3>
+                {isDisabled ? (
+                  <p className="text-white text-[20px]">{summary}</p>
+                ) : (
+                  <textarea
+                    type="text"
+                    name="summary"
+                    value={summary}
+                    onChange={(e) => {
+                      setSummary(e.target.value);
+                    }}
+                    placeholder="Which episode?"
+                    required
+                    disabled={isDisabled}
+                    rows="4"
+                    className="w-full bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium"
+                  />
+                )}
+                <div className="">
+                  <button
+                    type="button"
+                    className="bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl"
+                    onClick={() => {
+                      handleSave();
+                    }}
+                  >
+                    {loading ? "Saving" : "Save"}
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl"
+                    onClick={() => {
+                      handleEdit();
+                    }}
+                  >
+                    {isDisabled ? "Edit" : "Cancel"}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </>
       ) : (
         ""
       )}

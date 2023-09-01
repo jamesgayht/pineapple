@@ -10,7 +10,7 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 // whisperAI set up
 const dirPath =
-  "/Users/jumo/Documents/projects/pineapple/pineapple-server/uploads/";
+  `${__dirname}/../uploads/`;
 
 // chatgpt set up
 // const config = new Configuration({ apiKey: OPENAI_API_KEY });
