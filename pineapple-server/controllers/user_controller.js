@@ -105,10 +105,8 @@ const userController = {
 
   saveSummary: async (req, res) => {
     const data = req.body;
-    console.info(">>> reqbody: ", req)
     const userID = res.locals.authUserID;
     const summaryInput = { ...data, userID: userID };
-    console.info(">>> summary Input: ", summaryInput)
 
     const validationResult = userValidator.summarySchema.validate(summaryInput);
     if (validationResult.error)
@@ -138,11 +136,77 @@ const userController = {
       return res.status(200).json({ summaries: summaries });
     } catch (error) {
       console.error(">>> error getting summaries: ", error);
+      return res.status(400).json({
+        msg: "error occured while retrieving summaries, please try again",
+      });
+    }
+  },
+
+  deleteSummary: async (req, res) => {
+    const data = req.body;
+    const userID = res.locals.authUserID;
+    const deleteSummaryInput = { ...data, userID: userID };
+
+    const validationResult =
+      userValidator.deleteSummarySchema.validate(deleteSummaryInput);
+    if (validationResult.error)
+      return res.status(400).json({ msg: validationResult.error });
+
+    try {
+      const summaries = await summaryModel.deleteOne({ _id: data.id });
+      return res.status(200).json({ msg: "summary item deleted" });
+    } catch (error) {
+      console.error(">>> error deleting summary: ", error);
+      return res.status(400).json({
+        msg: "error occured while deleting summary, please try again",
+      });
+    }
+  },
+
+  updateSummary: async (req, res) => {
+    const userID = res.locals.authUserID;
+    const data = req.body;
+    let record = null;
+
+    const editSummaryInput = { ...req.body, userID: userID };
+
+    const validationResult =
+      userValidator.summarySchema.validate(editSummaryInput);
+
+    if (validationResult.error)
+      return res.status(400).json({ msg: validationResult.error });
+
+    try {
+      record = await summaryModel.findById(req.params.recordID);
+    } catch (error) {
+      console.error(">>> update summary error: ", error);
       return res
         .status(400)
-        .json({
-          msg: "error occured while retrieving summaries, please try again",
-        });
+        .json({ msg: "error updating summary, please try again" });
+    }
+
+    if (!record) {
+      res.statusCode = 404;
+      return res.json({ msg: "record not found" });
+    }
+
+    try {
+      await summaryModel.updateOne(
+        {
+          _id: req.params.recordID,
+        },
+        {
+          title: data.title,
+          episode: data.episode,
+          summary: data.summary,
+        }
+      );
+      return res.status(200).json({ msg: "Summary updated successfully" });
+    } catch (error) {
+      console.error(">>> update summary error: ", error);
+      return res
+        .status(400)
+        .json({ msg: "error updating summary, please try again" });
     }
   },
 };

@@ -7,5 +7,11 @@ router.post("/register", userController.register);
 router.post("/login", userController.login);
 router.post("/summaries", authMiddleware, userController.saveSummary);
 router.get("/summaries", authMiddleware, userController.listSummaries);
+router.put("/summaries/delete", authMiddleware, userController.deleteSummary);
+router.put(
+  "/summaries/:recordID",
+  authMiddleware,
+  userController.updateSummary
+);
 
 module.exports = router;

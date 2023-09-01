@@ -9,8 +9,8 @@ import Cookies from "js-cookie";
 function PineappleUpload() {
   const [title, setTitle] = useState("");
   const [episode, setEpisode] = useState("");
-  const [ext, setExt] = useState("");
   const [summary, setSummary] = useState("");
+  const [ext, setExt] = useState("");
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -80,17 +80,18 @@ function PineappleUpload() {
     <section className="relative w-full h-screen mx-auto">
       <PineappleNavbar />
       {loading ? (
-        <div className="w-full h-screen fixed bg-black bg-opacity-60 flex justify-center items-center z-10">
+        <div className="w-full h-screen relative bg-black bg-opacity-60 flex justify-center items-center z-10">
           <PacmanLoader color="rgba(115, 79, 162, 1)" />
         </div>
       ) : (
         ""
       )}
-      <div className="flex-[0.75] bg-black-100 p-8 rounded-2x1">
+      <div className="flex-[0.75] p-8 rounded-2x1">
         <p className={`${styles.sectionSubText}`}>
           Too many podcasts too little time?
         </p>
         <h3 className={`${styles.sectionHeadText}`}>We got you!</h3>
+        
         <form onSubmit={handleSubmit} className="mt-12 flex flex-col gap-8">
           <label className="flex flex-col">
             <span className="text-white font-medium mb-4">Podcast Title</span>

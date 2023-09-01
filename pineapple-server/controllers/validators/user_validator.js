@@ -18,6 +18,11 @@ const userValidator = {
     episode: Joi.string().required(),
     summary: Joi.string().required(),
   }),
+
+  deleteSummarySchema: Joi.object({
+    id: Joi.string().required(),
+    userID: Joi.string().required(),
+  }),
 };
 
 module.exports = userValidator;
