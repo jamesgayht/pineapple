@@ -41,9 +41,13 @@ function PineappleUpload() {
     formData.append("ext", ext);
     formData.append("file", file);
     axios
-      .post("https://pineapple-a8je.onrender.com/api/audio/upload_file", formData, {
-        headers: { Authorization: `Bearer ${Cookies.get("userAuthToken")}` },
-      })
+      .post(
+        "https://pineapple-a8je.onrender.com/api/audio/upload_file",
+        formData,
+        {
+          headers: { Authorization: `Bearer ${Cookies.get("userAuthToken")}` },
+        }
+      )
       .then((res) => {
         setLoading(false);
         console.info(">>> audio upload res: ", res);
@@ -69,7 +73,7 @@ function PineappleUpload() {
       .then((res) => {
         setLoading(false);
         console.info(">>> save summary res: ", res);
-        window.location.reload()
+        window.location.reload();
       })
       .catch((err) => {
         console.error(">>> save summary error: ", err);
@@ -91,67 +95,69 @@ function PineappleUpload() {
           <PacmanLoader color="rgba(115, 79, 162, 1)" />
         </div>
       ) : (
-        ""
-      )}
-      <div className="flex-[0.75] p-8 rounded-2x1">
-        <p className={`${styles.sectionSubText}`}>
-          Too many podcasts too little time?
-        </p>
-        <h3 className={`${styles.sectionHeadText}`}>We got you!</h3>
+        <div className="flex-[0.75] p-8 rounded-2x1">
+          <p className={`${styles.sectionSubText}`}>
+            Too many podcasts too little time?
+          </p>
+          <h3 className={`${styles.sectionHeadText}`}>We got you!</h3>
 
-        <form onSubmit={handleSubmit} className="mt-12 flex flex-col gap-8">
-          <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Podcast Title</span>
-            <input
-              type="text"
-              name="title"
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-              placeholder="What's the title?"
-              required
-              className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium"
-            />
-          </label>
-          <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Podcast Episode</span>
-            <input
-              type="text"
-              name="episode"
-              value={episode}
-              onChange={(e) => {
-                setEpisode(e.target.value);
-              }}
-              placeholder="Which episode?"
-              required
-              className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium"
-            />
-          </label>
-          <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Audio File</span>
-            <input
-              type="file"
-              name="file"
-              // value={file}
-              onChange={(e) => {
-                handleFileChange(e);
-              }}
-              placeholder="Feed me mp3"
-              required
-              className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium"
-            />
-          </label>
-          <div className="">
-            <button
-              type="submit"
-              className="bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl"
-            >
-              {loading ? "Generating" : "Generate"}
-            </button>
-          </div>
-        </form>
-      </div>
+          <form onSubmit={handleSubmit} className="mt-12 flex flex-col gap-8">
+            <label className="flex flex-col">
+              <span className="text-white font-medium mb-4">Podcast Title</span>
+              <input
+                type="text"
+                name="title"
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+                placeholder="What's the title?"
+                required
+                className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium"
+              />
+            </label>
+            <label className="flex flex-col">
+              <span className="text-white font-medium mb-4">
+                Podcast Episode
+              </span>
+              <input
+                type="text"
+                name="episode"
+                value={episode}
+                onChange={(e) => {
+                  setEpisode(e.target.value);
+                }}
+                placeholder="Which episode?"
+                required
+                className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium"
+              />
+            </label>
+            <label className="flex flex-col">
+              <span className="text-white font-medium mb-4">Audio File</span>
+              <input
+                type="file"
+                name="file"
+                // value={file}
+                onChange={(e) => {
+                  handleFileChange(e);
+                }}
+                placeholder="Feed me mp3"
+                required
+                accept="audio/*"
+                className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium"
+              />
+            </label>
+            <div className="">
+              <button
+                type="submit"
+                className="bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl"
+              >
+                {loading ? "Generating" : "Generate"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {/* display summary */}
       {summary ? (

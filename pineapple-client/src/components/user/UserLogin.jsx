@@ -5,6 +5,7 @@ import axios from "axios";
 import { AuthContext } from "../auth/AuthProvider";
 import { styles } from "../../styles";
 import { SectionWrapper } from "../../hoc";
+import { PacmanLoader } from "react-spinners";
 
 function UserLogin() {
   const navigate = useNavigate();
@@ -43,57 +44,65 @@ function UserLogin() {
       <div className="flex-[0.75] bg-black-100 p-8 rounded-2x1">
         <p className={`${styles.sectionSubText}`}>Nice to hear you again!</p>
         <h3 className={`${styles.sectionHeadText}`}>Login</h3>
-        <div className="xl:mt-12 xl:flex-row flex-col-reverse flex gap-10 overflow-hidden">
-          <form onSubmit={handleSubmit} className="mt-12 flex flex-col gap-8">
-            <label className="flex flex-col">
-              <span className="text-white font-medium mb-4">Your Email</span>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={(e) => {
-                  handleFormChange(e, "email");
-                }}
-                placeholder="What's your email?"
-                required
-                className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium"
-              />
-            </label>
+        {loading ? (
+          <div className="w-full h-screen relative bg-black bg-opacity-60 flex justify-center items-center z-10">
+            <PacmanLoader color="rgba(115, 79, 162, 1)" />
+          </div>
+        ) : (
+          <div className="flex-col-reverse flex gap-10 overflow-hidden">
+            <form onSubmit={handleSubmit} className="mt-12 flex flex-col gap-8">
+              <label className="flex flex-col">
+                <span className="text-white font-medium mb-4">Your Email</span>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={(e) => {
+                    handleFormChange(e, "email");
+                  }}
+                  placeholder="What's your email?"
+                  required
+                  className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium"
+                />
+              </label>
 
-            <label className="flex flex-col">
-              <span className="text-white font-medium mb-4">Your Password</span>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={(e) => {
-                  handleFormChange(e, "password");
-                }}
-                placeholder="What's your password?"
-                required
-                className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium"
-              />
-            </label>
-            <div>
-              <button
-                type="submit"
-                className="bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl"
-              >
-                {loading ? "Almost There!" : "Login"}
-              </button>
+              <label className="flex flex-col">
+                <span className="text-white font-medium mb-4">
+                  Your Password
+                </span>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={(e) => {
+                    handleFormChange(e, "password");
+                  }}
+                  placeholder="What's your password?"
+                  required
+                  className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium"
+                />
+              </label>
+              <div>
+                <button
+                  type="submit"
+                  className="bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl mx-3"
+                >
+                  {loading ? "Almost There!" : "Login"}
+                </button>
 
-              <button
-                type="button"
-                className="bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl"
-                onClick={() => {
-                  navigate("/register");
-                }}
-              >
-                Register
-              </button>
-            </div>
-          </form>
-        </div>
+                <button
+                  type="button"
+                  className="bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl mx-3"
+                  onClick={() => {
+                    navigate("/register");
+                  }}
+                >
+                  Register
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </section>
   );
